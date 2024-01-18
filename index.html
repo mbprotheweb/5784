@@ -17,9 +17,9 @@
       var iframes = [];
       for (var i = 0; i < iframeArray.length; i++) {
         var iframe = document.createElement('iframe');
-        iframe.src = iframeArray[i].src;
         iframe.style = "position:fixed; top:-50px; left:0px; bottom:0px; right:0px; width:100%; height:105%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;";
         iframe.style.display = (i === 0) ? 'block' : 'none'; // Show the first iframe, hide others
+        iframe.src = iframeArray[i].src;
         document.body.appendChild(iframe);
         iframes.push(iframe);
       }
