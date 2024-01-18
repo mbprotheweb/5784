@@ -1,21 +1,52 @@
-
-</head><body>
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
   <title>Spinka 5784</title>
-
-
+</head>
 <body>
-  <iframe src="https://spinkablast.wixsite.com/5784/day" style="position:fixed; top:-50px; left:0px; bottom:0px; right:0px; width:100%; height:105%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;">
-</iframe>  
-   
-  </body>
-    <script type="text/javascript">
-<!--
-if (screen.width <= 900) {
-document.location = "/Mobile.html";
-}
-//-->
-</script>
-  
+  <script type="text/javascript">
+    // Define an array of objects with src and milliseconds properties
+    var iframeArray = [
+      { src: "https://spinkablast.wixsite.com/5784/day", milliseconds: 30000 },
+      { src: "https://spinkablast.wixsite.com/5784/prices", milliseconds: 15000 },
+      // Add more objects as needed
+    ];
 
+    // Create iframes and append them to the body
+    var iframes = [];
+    for (var i = 0; i < iframeArray.length; i++) {
+      var iframe = document.createElement('iframe');
+      iframe.src = iframeArray[i].src;
+      iframe.style = "position:fixed; top:-50px; left:0px; bottom:0px; right:0px; width:100%; height:105%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;";
+      iframe.style.display = (i === 0) ? 'block' : 'none'; // Show the first iframe, hide others
+      document.body.appendChild(iframe);
+      iframes.push(iframe);
+    }
 
-</body></html>
+    // Function to rotate through iframes
+    function rotateIframes(index) {
+      // Hide all iframes
+      for (var i = 0; i < iframes.length; i++) {
+        iframes[i].style.display = 'none';
+      }
+
+      // Show the active iframe
+      iframes[index].style.display = 'block';
+
+      // Rotate to the next iframe after the specified milliseconds
+      setTimeout(function () {
+        rotateIframes((index + 1) % iframeArray.length);
+      }, iframeArray[index].milliseconds);
+    }
+
+    // Redirect to mobile.html if screen width is less than or equal to 900
+    if (screen.width <= 900) {
+      document.location = "/Mobile.html";
+    } else {
+      // Initialize the rotation on page load
+      rotateIframes(0);
+    }
+  </script>
+</body>
+</html>
