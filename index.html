@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,47 +5,50 @@
 </head>
 <body>
   <script type="text/javascript">
-    // Define an array of objects with src and milliseconds properties
-    var iframeArray = [
-      { src: "https://spinkablast.wixsite.com/5784/day", milliseconds: 30000 },
-      { src: "https://spinkablast.wixsite.com/5784/prices", milliseconds: 15000 },
-      // Add more objects as needed
-    ];
+    var script = document.createElement('script');
+    script.src = 'iframeData + '.js'; // Assuming your file is named like iframeData_YYYY-MM-DD.js
+    script.onload = function () {
+      // The external script has loaded, proceed with your code
 
-    // Create iframes and append them to the body
-    var iframes = [];
-    for (var i = 0; i < iframeArray.length; i++) {
-      var iframe = document.createElement('iframe');
-      iframe.src = iframeArray[i].src;
-      iframe.style = "position:fixed; top:-50px; left:0px; bottom:0px; right:0px; width:100%; height:105%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;";
-      iframe.style.display = (i === 0) ? 'block' : 'none'; // Show the first iframe, hide others
-      document.body.appendChild(iframe);
-      iframes.push(iframe);
-    }
+      // Define an array of objects with src and milliseconds properties from the loaded external file
+      var iframeArray = window.iframeArray || [];
 
-    // Function to rotate through iframes
-    function rotateIframes(index) {
-      // Hide all iframes
-      for (var i = 0; i < iframes.length; i++) {
-        iframes[i].style.display = 'none';
+      // Create iframes and append them to the body
+      var iframes = [];
+      for (var i = 0; i < iframeArray.length; i++) {
+        var iframe = document.createElement('iframe');
+        iframe.src = iframeArray[i].src;
+        iframe.style = "position:fixed; top:-50px; left:0px; bottom:0px; right:0px; width:100%; height:105%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;";
+        iframe.style.display = (i === 0) ? 'block' : 'none'; // Show the first iframe, hide others
+        document.body.appendChild(iframe);
+        iframes.push(iframe);
       }
 
-      // Show the active iframe
-      iframes[index].style.display = 'block';
+      // Function to rotate through iframes
+      function rotateIframes(index) {
+        // Hide all iframes
+        for (var i = 0; i < iframes.length; i++) {
+          iframes[i].style.display = 'none';
+        }
 
-      // Rotate to the next iframe after the specified milliseconds
-      setTimeout(function () {
-        rotateIframes((index + 1) % iframeArray.length);
-      }, iframeArray[index].milliseconds);
-    }
+        // Show the active iframe
+        iframes[index].style.display = 'block';
 
-    // Redirect to mobile.html if screen width is less than or equal to 900
-    if (screen.width <= 900) {
-      document.location = "/Mobile.html";
-    } else {
-      // Initialize the rotation on page load
-      rotateIframes(0);
-    }
+        // Rotate to the next iframe after the specified milliseconds
+        setTimeout(function () {
+          rotateIframes((index + 1) % iframeArray.length);
+        }, iframeArray[index].milliseconds);
+      }
+
+      // Redirect to mobile.html if screen width is less than or equal to 900
+      if (screen.width <= 900) {
+        document.location = "/Mobile.html";
+      } else {
+        // Initialize the rotation on page load
+        rotateIframes(0);
+      }
+    };
+    document.head.appendChild(script);
   </script>
 </body>
 </html>
